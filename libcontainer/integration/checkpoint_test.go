@@ -82,13 +82,14 @@ func TestCheckpoint(t *testing.T) {
 	var stdout bytes.Buffer
 
 	pconfig := libcontainer.Process{
+		Cwd:    "/",
 		Args:   []string{"cat"},
 		Env:    standardEnvironment,
 		Stdin:  stdinR,
 		Stdout: &stdout,
 	}
 
-	err = container.Start(&pconfig)
+	err = container.Run(&pconfig)
 	stdinR.Close()
 	defer stdinW.Close()
 	if err != nil {
@@ -150,6 +151,7 @@ func TestCheckpoint(t *testing.T) {
 	}
 
 	restoreProcessConfig := &libcontainer.Process{
+		Cwd:    "/",
 		Stdin:  restoreStdinR,
 		Stdout: &stdout,
 	}
